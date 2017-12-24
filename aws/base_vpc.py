@@ -3,7 +3,7 @@ from troposphere.ec2 import VPC, RouteTable, Subnet, \
     SubnetRouteTableAssociation
 import utils
 
-def base_vpc(cidr_block, tag_app_name, resources):
+def create_vpc(cidr_block, tag_app_name, resources):
     vpc = VPC(
         'BaseVpc',
         CidrBlock=cidr_block,
@@ -55,7 +55,7 @@ def subnets(region, cidr_block, resources, tag_app_name=None):
 
 def create(app_name, region, cidr):
     resource_list = []
-    base_vpc(cidr, app_name, resource_list)
+    create_vpc(cidr, app_name, resource_list)
     route_table(app_name, resource_list)
     subnets(region, cidr, resource_list, app_name)
 
