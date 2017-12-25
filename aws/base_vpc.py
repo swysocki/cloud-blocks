@@ -14,7 +14,7 @@ resources created:
 """
 
 from troposphere import Tags, Ref
-from troposphere.ec2 import VPC, RouteTable, Subnet, \
+from troposphere.ec2 import VPC, Route, RouteTable, Subnet, \
     SubnetRouteTableAssociation, InternetGateway, \
     VPCGatewayAttachment
 import utils
@@ -139,12 +139,12 @@ def gateway_attach(vpc_obj, gateway_obj):
         InternetGatewayId=Ref(gateway_obj)
     )
 
-def default_route(inet_gw, route_table, attachment):
+def default_route(inet_gw, route_tbl, attachment):
     """ creates default route
 
     Params:
         inet_gw: troposphere.ec2.InternetGateway object
-        route_table: troposphere.ec2.RouteTable object
+        route_tbl: troposphere.ec2.RouteTable object
         attachment: troposphere.ec2.VPCGatewayAttachment object
     Returns:
         troposphere.ec2.Route object
@@ -154,7 +154,7 @@ def default_route(inet_gw, route_table, attachment):
         DependsOn=attachment,
         DestinationCidrBlock='0.0.0.0/0',
         GatewayId=Ref(inet_gw),
-        RouteTableId=Ref(route_table)
+        RouteTableId=Ref(route_tbl)
     )
 
 def build(app_name, region, cidr):
