@@ -18,8 +18,8 @@ class TestBaseVPC(unittest.TestCase):
         cls.vpc_obj = base_vpc.vpc(cls.cidr, cls.app_name)
         cls.rt_obj = base_vpc.route_table(cls.app_name, cls.vpc_obj)
         cls.sbnt_list = base_vpc.subnets(cls.region,
-                                         cls.cidr, 
-                                         cls.vpc_obj, 
+                                         cls.cidr,
+                                         cls.vpc_obj,
                                          cls.app_name)
         cls.igw = base_vpc.internet_gw(cls.app_name)
         cls.gw_attach = base_vpc.gateway_attach(cls.vpc_obj, cls.igw)
