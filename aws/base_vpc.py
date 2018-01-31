@@ -17,7 +17,7 @@ from troposphere import Tags, Ref
 from troposphere.ec2 import VPC, Route, RouteTable, Subnet, \
     SubnetRouteTableAssociation, InternetGateway, \
     VPCGatewayAttachment
-import utils
+from cloudutils import base
 
 def vpc(cidr_block, tag_app_name):
     """ creates base VPC object
@@ -71,8 +71,8 @@ def subnets(region, cidr_block, vpc_obj, tag_app_name):
     Returns:
         subnet_resources: a list of troposphere.ec2.Subnet objects
     """
-    azs = utils.get_availability_zones(region)
-    subnet_list = utils.create_subnets(cidr_block, len(azs))
+    azs = base.get_availability_zones(region)
+    subnet_list = base.create_subnets(cidr_block, len(azs))
     subnet_resources = []
     for idx, sbnt in enumerate(subnet_list):
         subnet_resources.append(
