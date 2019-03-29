@@ -13,6 +13,7 @@ def get_availability_zones(region):
     zones = ec2.describe_availability_zones()['AvailabilityZones']
     return [x['ZoneName'] for x in zones]
 
+
 def create_subnets(supernet, subnet_count):
     ''' Generate subnet and mask based on supernet
 

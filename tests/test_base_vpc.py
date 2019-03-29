@@ -1,12 +1,15 @@
-import unittest
-import warnings
-import sys, os
-sys.path.append(os.path.abspath('..'))
-
 from troposphere.ec2 import VPC, Route, RouteTable, Subnet, \
     SubnetRouteTableAssociation, InternetGateway, \
     VPCGatewayAttachment
+
 from aws import base_vpc
+
+import unittest
+import warnings
+import sys
+import os
+
+sys.path.append(os.path.abspath('..'))
 
 
 class TestBaseVPC(unittest.TestCase):
@@ -23,29 +26,31 @@ class TestBaseVPC(unittest.TestCase):
                                          cls.app_name)
         cls.igw = base_vpc.internet_gw(cls.app_name)
         cls.gw_attach = base_vpc.gateway_attach(cls.vpc_obj, cls.igw)
-        cls.def_route = base_vpc.default_route(cls.igw, cls.rt_obj, cls.gw_attach)
+        cls.def_route = base_vpc.default_route(cls.igw,
+                                               cls.rt_obj,
+                                               cls.gw_attach)
 
     def setUp(self):
         pass
-    
+
     def tearDown(self):
         pass
-    
+
     def test_vpc(self):
         self.assertIsInstance(self.vpc_obj, VPC)
-    
+
     def test_route_table(self):
         self.assertIsInstance(self.rt_obj, RouteTable)
 
     def test_subnet(self):
         for item in self.sbnt_list:
             self.assertIsInstance(item, Subnet)
-    
+
     def test_subnet_assc(self):
         subnet_assc = base_vpc.subnet_assc(self.sbnt_list, self.rt_obj)
         for item in subnet_assc:
             self.assertIsInstance(item, SubnetRouteTableAssociation)
-    
+
     def test_internet_gw(self):
         self.assertIsInstance(self.igw, InternetGateway)
 
@@ -62,10 +67,13 @@ class TestBaseVPC(unittest.TestCase):
         self.assertTrue(any(isinstance(x, VPC) for x in res_list))
         self.assertTrue(any(isinstance(x, RouteTable) for x in res_list))
         self.assertTrue(any(isinstance(x, Subnet) for x in res_list))
-        self.assertTrue(any(isinstance(x, SubnetRouteTableAssociation) for x in res_list))
+        self.assertTrue(any(isinstance(x, SubnetRouteTableAssociation)
+                            for x in res_list))
         self.assertTrue(any(isinstance(x, InternetGateway) for x in res_list))
-        self.assertTrue(any(isinstance(x, VPCGatewayAttachment) for x in res_list))
+        self.assertTrue(any(isinstance(x, VPCGatewayAttachment)
+                            for x in res_list))
         self.assertTrue(any(isinstance(x, Route) for x in res_list))
+
 
 if __name__ == "__main__":
     unittest.main()
